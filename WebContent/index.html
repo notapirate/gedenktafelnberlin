@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.css"/>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link rel="stylesheet" href="css/MarkerCluster.css" />
+<link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="css/main.css" />
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
+<!-- <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBqMGqwfhhJaopeGRkyELjVJHxHsBrUJzI&sensor=false"></script>-->
+</head>
+<body>
+<div data-role="page" id="mappage" data-theme="b" class="ui-responsive-panel">
+
+	<div data-role="panel" id="contentpanel" data-position="right" data-display="push">
+		<h2 id="w-name"></h2>
+		<h4 id="w-address"></h4>
+		<p id="w-description"></p>
+		<p id="w-content"></p>
+		<div data-role="controlgroup" data-type="vertical">
+			<a href="" target="_blank" id="w-link" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-action ui-btn-icon-left">Link</a>
+			<a href="#mappage" data-rel="close" class="ui-btn ui-shadow ui-corner-all ui-btn-b ui-icon-delete ui-btn-icon-left">Schliessen</a>
+		</div>
+	</div>
+	
+	<div data-role="header" data-position="fixed" data-theme="b">
+		<h1>Gedenktafeln in Berlin</h1>
+		<a href="#" id="pos" class="ui-btn ui-btn-inline ui-icon-location ui-btn-icon-notext ui-btn-left ui-corner-all"></a>
+		<!-- <a href="#" id="search" class="ui-btn ui-btn-inline ui-icon-search ui-btn-icon-notext ui-btn-right ui-corner-all"></a>-->
+	</div>
+	
+	<div data-role="main" class="ui-content" id="map">
+	</div>
+
+</div>
+<div data-role="page" id="contentpage" data-theme="b">
+
+	<div data-role="header" data-position="fixed">
+		<a href="#mappage" data-rel="back" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-back ui-btn-icon-left">Zur&uuml;ck</a>
+		<h1>Gedenktafeln in Berlin</h1>
+		<a href="" id="m-link" class="ui-btn ui-btn-inline ui-shadow ui-corner-all ui-btn-b ui-icon-action ui-btn-icon-left ui-btn-right">Link</a>
+	</div>
+	
+	<div data-role="main" class="ui-content">
+    	<h2 id="m-name"></h2>
+    	<h4 id="m-address"></h4>
+    	<p id="m-description"></p>
+   		<p id="m-content"></p>
+    </div>
+    
+  </div>
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<!-- <script src="js/proj4-compressed.js"></script>
+<script src="js/proj4leaflet.js"></script>-->
+<script src="js/leaflet.markercluster-src.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
