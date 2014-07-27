@@ -9,16 +9,18 @@ function initmap() {
 	map = new L.Map('map');
 
 	// create the tile layer with correct attribution
+	var bounds_text = "berlin";
+	var bounds_berlin = L.latLngBounds([52.33, 13.77], [52.69, 13.08]);
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	var berlinUrl='http://fbinter.stadt-berlin.de/fb/wms/senstadt/berlinzoom';
 	var xyz = 'http://www.umwelt.sachsen.de/umwelt/infosysteme/ags/services/wasser/gewaesserpegelmessnetz/MapServer/WMSServer';
-	//var berlinLocal='berlin.jpg';
-	//var osmUrl='672.png';
 	var osmAttrib='Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
 	var bounds = L.latLngBounds(L.latLng(52.3005, 12.9709), L.latLng(52.6954, 13.8109));
 	var osm = new L.TileLayer(osmUrl, {
-		//minZoom: 12,
-		attribution: osmAttrib
+		minZoom: 12,
+		attribution: osmAttrib,
+		bounds: bounds_berlin,
+		reuseTiles: true
 	});
 	/*var crs = new L.Proj.CRS.TMS('EPSG:3068',
 	        '+proj=cass +lat_0=52.41864827777778 +lon_0=13.62720366666667 +x_0=40000 +y_0=10000 +ellps=bessel +datum=potsdam +units=m +no_defs"',
@@ -64,7 +66,6 @@ function initmap() {
 	// start the map in Berlin
 	// setView must be called in case the user ignores the location request or chooses "Not now" (Firefox), which fires no callback
 	map.setView([52.52001, 13.40495],12);
-	map.setMaxBounds(bounds);
 	posmarker = L.marker([1,1]).bindPopup('Ihre Position').addTo(map);
 	
 	// If supported, set marker on current location. User can still deny.
