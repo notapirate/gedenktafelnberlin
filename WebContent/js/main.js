@@ -83,7 +83,7 @@ function initmap() {
 	    iconSize:     [60, 48], // size of the icon
 	    shadowSize:   [80, 48], // size of the shadow
 	    iconAnchor:   [22, 47], // point of the icon which will correspond to marker's location
-	    shadowAnchor: [12, 47],  // the same for the shadow
+	    shadowAnchor: [22, 47],  // the same for the shadow
 	    popupAnchor:  [15, -40] // point from which the popup should open relative to the iconAnchor
 	});
 	
@@ -94,7 +94,7 @@ function initmap() {
 	    iconSize:     [60, 48], // size of the icon
 	    shadowSize:   [80, 48], // size of the shadow
 	    iconAnchor:   [22, 47], // point of the icon which will correspond to marker's location
-	    shadowAnchor: [12, 47],  // the same for the shadow
+	    shadowAnchor: [22, 47],  // the same for the shadow
 	    popupAnchor:  [15, -40] // point from which the popup should open relative to the iconAnchor
 	});
 
