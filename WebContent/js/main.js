@@ -2,6 +2,9 @@
 var map;
 var posmarker;
 var mq;
+var searchControl;
+var markerlist = {};
+var bounds_berlin;
 
 function initmap() {
 	mq = window.matchMedia( "(min-width: 480px)" );
@@ -10,7 +13,7 @@ function initmap() {
 
 	// create the tile layer with correct attribution
 	var bounds_text = "berlin";
-	var bounds_berlin = L.latLngBounds([52.33, 13.77], [52.69, 13.08]);
+	bounds_berlin = L.latLngBounds([52.33, 13.77], [52.69, 13.08]);
 	var osmUrl='http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 	var berlinUrl='http://fbinter.stadt-berlin.de/fb/wms/senstadt/berlinzoom';
 	var xyz = 'http://www.umwelt.sachsen.de/umwelt/infosysteme/ags/services/wasser/gewaesserpegelmessnetz/MapServer/WMSServer';
@@ -72,8 +75,28 @@ function initmap() {
 	if ("geolocation" in navigator) {
 		navigator.geolocation.getCurrentPosition(geolocation_action);
 	}
+	
+	// Get position on 'Position'-button click
+	$('#pos').click(function() {
+		navigator.geolocation.getCurrentPosition(geolocation_action, errors_action, {enableHighAccuracy : true});
+	});
+	
 	map.addLayer(osm);
 	//hauptstadt.addTo(map);
+	
+	searchCtrl = L.control.fuseSearch(/*{
+			showResultFct: function(feature, container) {
+				props = feature.properties;
+				var name = L.DomUtil.create('b', null, container);
+				//a.href = "#";
+				name.setAttribute('onclick', 'getMarker(' + feature + ');');
+				name.innerHTML = props.Name;
+				container.appendChild(L.DomUtil.create('br', null, container));
+				//container.appendChild(document.createTextNode(props.Name));
+				console.log(feature.properties.uid);
+			}
+		}*/);
+		searchCtrl.addTo(map);
 	
 	// Define icons for existent and removed boards
 	var board = L.icon({
@@ -101,7 +124,9 @@ function initmap() {
 	var items = L.geoJson(null, {
 		// Set normal board icon
 		pointToLayer: function (feature, latlng) {
-        	return L.marker(latlng, {icon: board});
+			var marker = new L.Marker( latlng, {icon: board} );
+		    markerlist[feature.properties.uid] = marker;
+		    return marker;
     	},	
 		onEachFeature: onEachFeature
 	});
@@ -109,7 +134,9 @@ function initmap() {
 	var items_removed = L.geoJson(null, {
 		// Set removed board icon
 		pointToLayer: function (feature, latlng) {
-        	return L.marker(latlng, {icon: r_board});
+			var marker = new L.Marker( latlng, {icon: r_board} );
+		    markerlist[feature.properties.uid] = marker;
+		    return marker;
     	},
 		onEachFeature: onEachFeature
 	});
@@ -174,20 +201,22 @@ function initmap() {
 						}
 						else items.addData(val[i]);
 					}
-				});	
+				});
 				markers.addLayer(items);
 				markers_removed.addLayer(items_removed);
 				map.addLayer(markers);
+				searchCtrl.indexFeatures(json.features, ['Name']);
 			}
 		});
 	
 	L.control.layers(null, {"Entfernte Tafeln": markers_removed}).addTo(map);
-	
-	// Get position on 'Position'-button click
-	$('#pos').click(function() {
-		navigator.geolocation.getCurrentPosition(geolocation_action, errors_action, {enableHighAccuracy : true});
-	});
-	
+}
+
+function getMarker(feature) {
+	console.log(feature.properties.uid);
+	/*var marker = markerlist[feature.properties.uid];
+	map.panTo(marker.getLatLng());
+	marker.bindPopup(feature.properties.Name, {autoPan: true});*/
 }
 
 function errors_action(error) {
@@ -202,23 +231,29 @@ function errors_action(error) {
 function geolocation_action(position){
 	// Center map on position and place a marker with popup there 
     var latlng = new L.LatLng(position.coords.latitude,position.coords.longitude);
-    map.panTo(latlng);
-    posmarker.setLatLng(latlng).update().openPopup();
+    if(bounds_berlin.contains(latlng)) {
+    	map.panTo(latlng);
+    	posmarker.setLatLng(latlng).update().openPopup();
+    }
+    else {
+    	console.log("oob");
+    	$("#oob").popup( "open" );
+    }
 }
 
 function onEachFeature(feature, layer) {
 	var address = feature.properties.strasse + ", " + feature.properties.ortsteil;
+	layer.bindPopup(feature.properties.Name);
     layer.on('click', function(e){
     	if(mq.matches) {
     		// Wide screen: Open Panel
-    		layer.bindPopup(feature.properties.Name, {autoPan: false});
+    		layer.openPopup();
     		//layer.setIcon(c_board);
     		document.getElementById("w-address").innerHTML = address;
     		document.getElementById("w-name").innerHTML = feature.properties.Name;
     		document.getElementById("w-description").innerHTML = feature.properties.inhalt;
     		document.getElementById("w-content").innerHTML = feature.properties.erlauterung;
     		document.getElementById("w-link").href = feature.properties.url;
-    		layer.openPopup();
     		$( "#contentpanel" ).panel({
     			beforeclose: function( event, ui ) {
     				//layer.setIcon(board);

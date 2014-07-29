@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="utf-8">
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
@@ -8,6 +9,7 @@
 <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
 <link rel="stylesheet" href="css/MarkerCluster.css" />
 <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+<link rel="stylesheet" href="css/leaflet.fusesearch.css" />
 <link rel="stylesheet" href="css/main.css" />
 <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="http://code.jquery.com/mobile/1.4.3/jquery.mobile-1.4.3.min.js"></script>
@@ -52,11 +54,17 @@
    		<p id="m-content"></p>
     </div>
     
-  </div>
+</div>
+
+<div data-role="popup" id="ooB">
+	<p>Sie befinden sich ausserhalb von Berlin, daher wird ihr Standort nicht angezeigt.<p>
+</div>
 <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 <!-- <script src="js/proj4-compressed.js"></script>
 <script src="js/proj4leaflet.js"></script>-->
 <script src="js/leaflet.markercluster-src.js"></script>
+<script src="js/fuse.min.js"></script>
+<script src="js/leaflet.fusesearch.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
