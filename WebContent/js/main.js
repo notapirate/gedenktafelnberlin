@@ -236,18 +236,21 @@ function geolocation_action(position){
     	posmarker.setLatLng(latlng).update().openPopup();
     }
     else {
-    	console.log("oob");
-    	$("#oob").popup( "open" );
+    	L.popup()
+        .setLatLng(map.getCenter())
+        .setContent('Sie befinden sich ausserhalb von Berlin, daher wird ihr Standort nicht angezeigt')
+        .openOn(map);
     }
 }
 
 function onEachFeature(feature, layer) {
 	var address = feature.properties.strasse + ", " + feature.properties.ortsteil;
-	layer.bindPopup(feature.properties.Name);
+	layer.bindPopup(feature.properties.Name, {autoPan: false});
+	layer.on("mouseover", function(e) {layer.openPopup();});
     layer.on('click', function(e){
     	if(mq.matches) {
     		// Wide screen: Open Panel
-    		layer.openPopup();
+    		//layer.openPopup();
     		//layer.setIcon(c_board);
     		document.getElementById("w-address").innerHTML = address;
     		document.getElementById("w-name").innerHTML = feature.properties.Name;
