@@ -6,7 +6,8 @@ var searchControl;
 var markerlist = {};
 var bounds_berlin;
 
-function initmap() {
+$(document).ready(
+		function() {
 	mq = window.matchMedia( "(min-width: 480px)" );
 	// set up the map
 	map = new L.Map('map');
@@ -210,7 +211,8 @@ function initmap() {
 		});
 	
 	L.control.layers(null, {"Entfernte Tafeln": markers_removed}).addTo(map);
-}
+	map.invalidateSize();
+})
 
 function getMarker(feature) {
 	console.log(feature.properties.uid);
@@ -277,5 +279,3 @@ function onEachFeature(feature, layer) {
     
     });
 }
-
-initmap();
